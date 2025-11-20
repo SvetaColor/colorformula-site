@@ -1,5 +1,7 @@
+'use client';
+
 export default function AccessPage() {
-  const hasSubscription = true; // временно: true = доступ есть, false = нет
+  const hasSubscription = true; // временно: true — доступ есть, false — нет
 
   if (!hasSubscription) {
     return (
