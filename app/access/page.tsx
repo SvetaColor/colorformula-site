@@ -1,5 +1,5 @@
 export default function AccessPage() {
-  const hasSubscription = true; // Временно: true = доступ есть, false = нет
+  const hasSubscription = true; // временно: true = доступ есть, false = нет
 
   if (!hasSubscription) {
     return (
@@ -13,7 +13,7 @@ export default function AccessPage() {
   return (
     <div style={{ padding: "2rem" }}>
       <h1>Доступ разрешён</h1>
-      <p>Здесь появится информация для клиентов с активной подпиской.</p>
+      <p>Здесь представлена информация для клиентов с активной подпиской.</p>
     </div>
   );
 }
