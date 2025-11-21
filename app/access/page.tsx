@@ -1,46 +1,17 @@
+export default async function AccessPage({ searchParams }: { searchParams: { user?: string } }) {
+  const user = searchParams.user;
 
-'use client';
-
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-
-export default function AccessPage() {
-  const searchParams = useSearchParams();
-  const user = searchParams.get('user');
-  const [status, setStatus] = useState<'checking' | 'allowed' | 'denied'>('checking');
-
-  useEffect(() => {
-    async function checkAccess() {
-      if (!user) {
-        setStatus('denied');
-        return;
-      }
-
-      const res = await fetch(`/api/check?user=${user}`);
-      const data = await res.json();
-      setStatus(data.access ? 'allowed' : 'denied');
-    }
-
-    checkAccess();
-  }, [user]);
-
-  if (status === 'checking') {
-    return <p style={{ padding: '2rem' }}>Проверка доступа...</p>;
-  }
-
-  if (status === 'denied') {
-    return (
-      <div style={{ padding: '2rem' }}>
-        <h1>Нет доступа</h1>
-        <p>Ваша подписка неактивна или ID не указан.</p>
-      </div>
-    );
-  }
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'https://colorformula-site.vercel.app'}/api/check?user=${user}`);
+  const data = await res.json();
 
   return (
     <div style={{ padding: '2rem' }}>
-      <h1>Доступ разрешён</h1>
-      <p>Добро пожаловать, у вас есть активная подписка.</p>
+      <h1>Страница доступа</h1>
+      {data.access ? (
+        <p>✅ Доступ разрешён для пользователя: {user}</p>
+      ) : (
+        <p>❌ Подписка не активна или пользователь не найден</p>
+      )}
     </div>
   );
 }
