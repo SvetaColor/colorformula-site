@@ -15,7 +15,7 @@ const clients: Client[] = [
   { id: 'vasya123', name: 'Вася', active: true },
   { id: 'lena456', name: 'Лена', active: true },
   { id: 'katya789', name: 'Катя', active: true },
-  { id: 'anna', name: 'Анна', active: true },
+  { id: 'anna', name: 'Анна', active: false },
 ];
 
 export default function AccessPage() {
@@ -82,5 +82,6 @@ export default function AccessPage() {
     </div>
   );
 }
+
 
 
