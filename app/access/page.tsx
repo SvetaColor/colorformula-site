@@ -14,7 +14,7 @@ type Client = {
 const clients: Client[] = [
   { id: 'vasya123', name: 'Вася', active: true },
   { id: 'lena456', name: 'Лена', active: true },
-  { id: 'katya789', name: 'Катя', active: true },
+  { id: 'katya789', name: 'Катя', active: true },//anna2025
 ];
 
 export default function AccessPage() {
@@ -81,3 +81,4 @@ export default function AccessPage() {
     </div>
   );
 }
+
