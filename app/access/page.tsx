@@ -4,24 +4,43 @@ import { useEffect, useState } from 'react';
 
 type Status = 'checking' | 'allowed' | 'denied' | 'noUser';
 
-const activeUsers = ['vasya123', 'lena456', 'katya789'];
+type Client = {
+  id: string;      // ID клиента для ссылки (?user=...)
+  name: string;    // Имя клиента (для тебя, можно по-русски)
+  active: boolean; // true — подписка активна, false — отключена
+};
+
+// 💾 "Таблица" клиентов
+const clients: Client[] = [
+  { id: 'vasya123', name: 'Вася', active: true },
+  { id: 'lena456', name: 'Лена', active: true },
+  { id: 'katya789', name: 'Катя', active: true },
+];
 
 export default function AccessPage() {
   const [status, setStatus] = useState<Status>('checking');
-  const [user, setUser] = useState<string | undefined>(undefined);
+  const [client, setClient] = useState<Client | null>(null);
 
   useEffect(() => {
-    // Код выполняется только в браузере
     const params = new URLSearchParams(window.location.search);
-    const u = params.get('user') || undefined;
-    setUser(u);
+    const user = params.get('user');
 
-    if (!u) {
+    if (!user) {
       setStatus('noUser');
       return;
     }
 
-    if (activeUsers.includes(u)) {
+    const found = clients.find((c) => c.id === user);
+
+    if (!found) {
+      setClient(null);
+      setStatus('denied');
+      return;
+    }
+
+    setClient(found);
+
+    if (found.active) {
       setStatus('allowed');
     } else {
       setStatus('denied');
@@ -39,7 +58,7 @@ export default function AccessPage() {
 
   if (status === 'noUser') {
     return (
-      <div style={{ padding: '2рем' }}>
+      <div style={{ padding: '2rem' }}>
         <h1>Страница доступа</h1>
         <p>❌ Не указан ID пользователя в ссылке. Обратись к администратору за правильной ссылкой.</p>
       </div>
@@ -58,7 +77,7 @@ export default function AccessPage() {
   return (
     <div style={{ padding: '2rem' }}>
       <h1>Страница доступа</h1>
-      <p>✅ Доступ разрешён для пользователя: {user}</p>
+      <p>✅ Доступ разрешён для клиента: {client?.name} (ID: {client?.id})</p>
     </div>
   );
 }
