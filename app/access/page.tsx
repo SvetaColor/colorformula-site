@@ -1,16 +1,31 @@
-export default async function AccessPage({ searchParams }: { searchParams: { user?: string } }) {
-  const user = searchParams.user;
+export const dynamic = 'force-dynamic';
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'https://colorformula-site.vercel.app'}/api/check?user=${user}`);
-  const data = await res.json();
+type SearchParams = {
+  user?: string | string[];
+};
+
+export default function AccessPage({ searchParams }: { searchParams: SearchParams }) {
+  const rawUser = searchParams.user;
+  const user = Array.isArray(rawUser) ? rawUser[0] : rawUser;
+
+  const activeUsers = ['vasya123', 'lena456', 'katya789'];
+
+  const hasAccess = !!user && activeUsers.includes(user);
 
   return (
     <div style={{ padding: '2rem' }}>
       <h1>Страница доступа</h1>
-      {data.access ? (
+
+      {!user && (
+        <p>❌ Не указан ID пользователя в ссылке. Обратись к администратору за правильной ссылкой.</p>
+      )}
+
+      {user && hasAccess && (
         <p>✅ Доступ разрешён для пользователя: {user}</p>
-      ) : (
-        <p>❌ Подписка не активна или пользователь не найден</p>
+      )}
+
+      {user && !hasAccess && (
+        <p>❌ Подписка не активна или пользователь не найден.</p>
       )}
     </div>
   );
