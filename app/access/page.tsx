@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 type Status = 'checking' | 'allowed' | 'denied' | 'noUser';
 
@@ -27,6 +27,9 @@ export default function AccessPage() {
   const [answer, setAnswer] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // ref для textarea — чтобы фокусировать при "дописать"
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   // Проверяем доступ по ?user=...
   useEffect(() => {
@@ -90,6 +93,16 @@ export default function AccessPage() {
     }
   }
 
+  function handleFocusForFollowUp() {
+    if (textareaRef.current) {
+      // ставим курсор в конец текста
+      const el = textareaRef.current;
+      el.focus();
+      const len = el.value.length;
+      el.setSelectionRange(len, len);
+    }
+  }
+
   // ——— UI-состояния доступа ———
 
   if (status === 'checking') {
@@ -147,6 +160,7 @@ export default function AccessPage() {
         </p>
 
         <textarea
+          ref={textareaRef}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           rows={6}
@@ -154,7 +168,7 @@ export default function AccessPage() {
           placeholder="Например: клиентка с натуральной базой 6.0, ранее осветлялась до 9 уровня, есть тёплый фон..."
         />
 
-        <div style={{ marginBottom: '0.75rem' }}>
+        <div style={{ marginBottom: '0.75rem', display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
           <button
             onClick={handleAsk}
             disabled={loading}
@@ -164,6 +178,15 @@ export default function AccessPage() {
             }}
           >
             {loading ? 'Запрашиваем ИИ-помощника…' : 'Отправить запрос'}
+          </button>
+
+          {/* Кнопка для дописывания / уточнения вопроса */}
+          <button
+            type="button"
+            onClick={handleFocusForFollowUp}
+            style={styles.secondaryButton}
+          >
+            Дописать / задать ещё вопрос
           </button>
         </div>
 
@@ -274,6 +297,16 @@ const styles: { [key: string]: React.CSSProperties } = {
     opacity: 0.7,
     cursor: 'default',
     boxShadow: '0 6px 16px rgba(59, 47, 47, 0.25)',
+  },
+  secondaryButton: {
+    padding: '0.7rem 1.2rem',
+    borderRadius: 999,
+    border: '1px solid #C6A988',
+    cursor: 'pointer',
+    fontWeight: 500,
+    fontSize: '0.9rem',
+    backgroundColor: 'rgba(243, 230, 214, 0.9)',
+    color: '#4A2F24',
   },
   errorText: {
     marginTop: '0.75rem',
