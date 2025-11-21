@@ -90,102 +90,211 @@ export default function AccessPage() {
     }
   }
 
-  // Разные состояния доступа
+  // ——— UI-состояния доступа ———
 
   if (status === 'checking') {
     return (
-      <div style={{ padding: '2rem' }}>
-        <h1>Страница доступа</h1>
-        <p>Проверяем доступ...</p>
+      <div style={styles.page}>
+        <div style={styles.card}>
+          <h1 style={styles.title}>Страница доступа</h1>
+          <p style={styles.subtitle}>Проверяем доступ...</p>
+        </div>
       </div>
     );
   }
 
   if (status === 'noUser') {
     return (
-      <div style={{ padding: '2rem' }}>
-        <h1>Страница доступа</h1>
-        <p>❌ Не указан ID пользователя в ссылке.</p>
+      <div style={styles.page}>
+        <div style={styles.card}>
+          <h1 style={styles.title}>Страница доступа</h1>
+          <p style={styles.errorText}>
+            ❌ Не указан ID пользователя в ссылке. Обратись к администратору за правильной ссылкой.
+          </p>
+        </div>
       </div>
     );
   }
 
   if (status === 'denied') {
     return (
-      <div style={{ padding: '2rem' }}>
-        <h1>Страница доступа</h1>
-        <p>❌ Подписка не активна или пользователь не найден.</p>
+      <div style={styles.page}>
+        <div style={styles.card}>
+          <h1 style={styles.title}>Страница доступа</h1>
+          <p style={styles.errorText}>
+            ❌ Подписка не активна или пользователь не найден.
+          </p>
+        </div>
       </div>
     );
   }
 
-  // Если статус allowed — показываем ИИ-помощника
+  // ——— Если статус allowed — показываем ИИ-помощника ———
+
   return (
-    <div style={{ padding: '2rem', maxWidth: 800, margin: '0 auto' }}>
-      <h1>ColorFormula — доступ к ИИ-помощнику</h1>
-      <p>
-        ✅ Доступ разрешён для клиента: <b>{client?.name}</b> (ID: {client?.id})
-      </p>
+    <div style={styles.page}>
+      <div style={styles.card}>
+        <h1 style={styles.title}>ColorFormula — доступ к ИИ-помощнику</h1>
+        <p style={styles.subtitle}>
+          ✅ Доступ разрешён для клиента: <b>{client?.name}</b> (ID: {client?.id})
+        </p>
 
-      <hr style={{ margin: '1.5rem 0' }} />
+        <div style={styles.separator} />
 
-      <h2>ИИ-помощник колориста</h2>
-      <p style={{ marginBottom: '0.5rem' }}>
-        Опишите исходные данные: цвет, фон осветления, желаемый результат, историю окрашивания и т.д.
-      </p>
+        <h2 style={styles.sectionTitle}>ИИ-помощник колориста</h2>
+        <p style={styles.helperText}>
+          Опишите исходные данные: цвет, фон осветления, желаемый результат, историю окрашивания и т.д.
+        </p>
 
-      <textarea
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        rows={6}
-        style={{
-          width: '100%',
-          padding: '0.75rem',
-          borderRadius: 8,
-          border: '1px solid #ccc',
-          marginBottom: '0.75rem',
-          fontFamily: 'inherit',
-        }}
-        placeholder="Например: клиентка с натуральной базой 6.0, ранее осветлялась до 9 уровня, есть желтизна..."
-      />
+        <textarea
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          rows={6}
+          style={styles.textarea}
+          placeholder="Например: клиентка с натуральной базой 6.0, ранее осветлялась до 9 уровня, есть желтизна..."
+        />
 
-      <div style={{ marginBottom: '0.75rem' }}>
-        <button
-          onClick={handleAsk}
-          disabled={loading}
-          style={{
-            padding: '0.6rem 1.2rem',
-            borderRadius: 999,
-            border: 'none',
-            cursor: 'pointer',
-            fontWeight: 600,
-          }}
-        >
-          {loading ? 'Запрашиваем ИИ-помощника…' : 'Отправить запрос'}
-        </button>
+        <div style={{ marginBottom: '0.75rem' }}>
+          <button
+            onClick={handleAsk}
+            disabled={loading}
+            style={{
+              ...styles.button,
+              ...(loading ? styles.buttonDisabled : {}),
+            }}
+          >
+            {loading ? 'Запрашиваем ИИ-помощника…' : 'Отправить запрос'}
+          </button>
+        </div>
+
+        {error && (
+          <div style={styles.errorBox}>
+            ⚠️ {error}
+          </div>
+        )}
+
+        {answer && (
+          <div style={styles.answerBox}>
+            <b style={{ display: 'block', marginBottom: '0.5rem' }}>Ответ ИИ-помощника:</b>
+            <div>{answer}</div>
+          </div>
+        )}
       </div>
-
-      {error && (
-        <div style={{ marginBottom: '0.75rem', color: 'red' }}>
-          ⚠️ {error}
-        </div>
-      )}
-
-      {answer && (
-        <div
-          style={{
-            marginTop: '1rem',
-            padding: '1rem',
-            borderRadius: 8,
-            border: '1px solid #ddd',
-            background: '#fafafa',
-            whiteSpace: 'pre-wrap',
-          }}
-        >
-          <b>Ответ ИИ-помощника:</b>
-          <div style={{ marginTop: '0.5rem' }}>{answer}</div>
-        </div>
-      )}
     </div>
   );
 }
+
+// ——— Стили ———
+
+const styles: { [key: string]: React.CSSProperties } = {
+  page: {
+    minHeight: '100vh',
+    margin: 0,
+    padding: '2rem 1rem',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    background:
+      'linear-gradient(135deg, #fdf2ff 0%, #fde3f1 35%, #f3f0ff 70%, #e5f4ff 100%)',
+    fontFamily:
+      "-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif",
+  },
+  card: {
+    width: '100%',
+    maxWidth: 840,
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    borderRadius: 24,
+    padding: '1.75rem 1.75rem 2rem',
+    boxShadow:
+      '0 18px 45px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255,255,255,0.6)',
+    backdropFilter: 'blur(10px)',
+  },
+  title: {
+    fontSize: '1.7rem',
+    fontWeight: 700,
+    margin: 0,
+    marginBottom: '0.25rem',
+    letterSpacing: '0.03em',
+    color: '#262338',
+  },
+  subtitle: {
+    margin: 0,
+    marginBottom: '1.25rem',
+    fontSize: '0.98rem',
+    color: '#6b647f',
+  },
+  sectionTitle: {
+    fontSize: '1.25rem',
+    fontWeight: 600,
+    margin: 0,
+    marginBottom: '0.5rem',
+    color: '#2b233f',
+  },
+  helperText: {
+    margin: 0,
+    marginBottom: '0.75rem',
+    fontSize: '0.9rem',
+    color: '#7b7491',
+  },
+  separator: {
+    height: 1,
+    background:
+      'linear-gradient(90deg, rgba(0,0,0,0) 0%, #e5daff 30%, #ffd4ea 70%, rgba(0,0,0,0) 100%)',
+    margin: '1.25rem 0 1.5rem',
+  },
+  textarea: {
+    width: '100%',
+    padding: '0.9rem 1rem',
+    borderRadius: 14,
+    border: '1px solid #d1c4f1',
+    marginBottom: '0.9rem',
+    fontFamily: "inherit",
+    fontSize: '0.95rem',
+    outline: 'none',
+    resize: 'vertical',
+    backgroundColor: '#faf7ff',
+  },
+  button: {
+    padding: '0.7rem 1.6rem',
+    borderRadius: 999,
+    border: 'none',
+    cursor: 'pointer',
+    fontWeight: 600,
+    fontSize: '0.95rem',
+    background:
+      'linear-gradient(135deg, #ff7ac0 0%, #ff9a9e 40%, #fbc2eb 100%)',
+    color: '#fff',
+    boxShadow: '0 10px 25px rgba(255, 122, 192, 0.35)',
+    transition: 'transform 0.08s ease, box-shadow 0.08s ease, opacity 0.1s',
+  },
+  buttonDisabled: {
+    opacity: 0.7,
+    cursor: 'default',
+    boxShadow: '0 6px 16px rgba(150, 150, 150, 0.2)',
+  },
+  errorText: {
+    marginTop: '0.75rem',
+    fontSize: '0.98rem',
+    color: '#c0392b',
+  },
+  errorBox: {
+    marginTop: '0.5rem',
+    padding: '0.7rem 0.9rem',
+    borderRadius: 12,
+    backgroundColor: '#ffecec',
+    border: '1px solid #ffb4b4',
+    color: '#b93b3b',
+    fontSize: '0.9rem',
+  },
+  answerBox: {
+    marginTop: '1rem',
+    padding: '1rem 1.1rem',
+    borderRadius: 16,
+    border: '1px solid #e2d6ff',
+    background:
+      'linear-gradient(135deg, #ffffff 0%, #fdf8ff 40%, #f7f9ff 100%)',
+    fontSize: '0.95rem',
+    color: '#332a4d',
+    whiteSpace: 'pre-wrap',
+  },
+};
