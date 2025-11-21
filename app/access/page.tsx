@@ -22,7 +22,7 @@ export default function AccessPage() {
   const [status, setStatus] = useState<Status>('checking');
   const [client, setClient] = useState<Client | null>(null);
 
-  // Состояния для GPT
+  // Состояния для ИИ-помощника
   const [message, setMessage] = useState('');
   const [answer, setAnswer] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -60,7 +60,7 @@ export default function AccessPage() {
     setAnswer(null);
 
     if (!message.trim()) {
-      setError('Сначала напишите запрос для помощника.');
+      setError('Сначала напишите запрос для ИИ-помощника.');
       return;
     }
 
@@ -77,11 +77,11 @@ export default function AccessPage() {
 
       if (!res.ok) {
         const data = await res.json().catch(() => null);
-        throw new Error(data?.error || 'Ошибка запроса к GPT');
+        throw new Error(data?.error || 'Ошибка запроса к ИИ-помощнику');
       }
 
       const data = await res.json();
-      setAnswer(data.reply || 'Пустой ответ от модели.');
+      setAnswer(data.reply || 'Пустой ответ от ИИ-помощника.');
     } catch (err: any) {
       console.error(err);
       setError(err.message || 'Произошла ошибка.');
@@ -119,17 +119,17 @@ export default function AccessPage() {
     );
   }
 
-  // Если статус allowed — показываем GPT-помощника
+  // Если статус allowed — показываем ИИ-помощника
   return (
     <div style={{ padding: '2rem', maxWidth: 800, margin: '0 auto' }}>
-      <h1>ColorFormula — доступ к помощнику</h1>
+      <h1>ColorFormula — доступ к ИИ-помощнику</h1>
       <p>
         ✅ Доступ разрешён для клиента: <b>{client?.name}</b> (ID: {client?.id})
       </p>
 
       <hr style={{ margin: '1.5rem 0' }} />
 
-      <h2>GPT-помощник колориста</h2>
+      <h2>ИИ-помощник колориста</h2>
       <p style={{ marginBottom: '0.5rem' }}>
         Опишите исходные данные: цвет, фон осветления, желаемый результат, историю окрашивания и т.д.
       </p>
@@ -161,7 +161,7 @@ export default function AccessPage() {
             fontWeight: 600,
           }}
         >
-          {loading ? 'Запрашиваем GPT…' : 'Отправить запрос'}
+          {loading ? 'Запрашиваем ИИ-помощника…' : 'Отправить запрос'}
         </button>
       </div>
 
@@ -182,7 +182,7 @@ export default function AccessPage() {
             whiteSpace: 'pre-wrap',
           }}
         >
-          <b>Ответ помощника:</b>
+          <b>Ответ ИИ-помощника:</b>
           <div style={{ marginTop: '0.5rem' }}>{answer}</div>
         </div>
       )}
