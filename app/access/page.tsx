@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 type Status = 'checking' | 'allowed' | 'denied' | 'noUser';
 
@@ -151,7 +151,7 @@ export default function AccessPage() {
           onChange={(e) => setMessage(e.target.value)}
           rows={6}
           style={styles.textarea}
-          placeholder="Например: клиентка с натуральной базой 6.0, ранее осветлялась до 9 уровня, есть желтизна..."
+          placeholder="Например: клиентка с натуральной базой 6.0, ранее осветлялась до 9 уровня, есть тёплый фон..."
         />
 
         <div style={{ marginBottom: '0.75rem' }}>
@@ -184,7 +184,7 @@ export default function AccessPage() {
   );
 }
 
-// ——— Стили ———
+// ——— Стили в кофейной палитре ———
 
 const styles: { [key: string]: React.CSSProperties } = {
   page: {
@@ -195,64 +195,67 @@ const styles: { [key: string]: React.CSSProperties } = {
     justifyContent: 'center',
     alignItems: 'center',
     background:
-      'linear-gradient(135deg, #fdf2ff 0%, #fde3f1 35%, #f3f0ff 70%, #e5f4ff 100%)',
+      'linear-gradient(135deg, #F7EFE6 0%, #E8DCC8 40%, #D7C2AA 75%, #B79A7D 100%)',
     fontFamily:
       "-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif",
   },
   card: {
     width: '100%',
     maxWidth: 840,
-    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    backgroundColor: 'rgba(247, 239, 230, 0.96)', // крем-капучино
     borderRadius: 24,
     padding: '1.75rem 1.75rem 2rem',
     boxShadow:
-      '0 18px 45px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255,255,255,0.6)',
-    backdropFilter: 'blur(10px)',
+      '0 18px 45px rgba(59, 47, 47, 0.25), 0 0 0 1px rgba(255,255,255,0.4)',
+    backdropFilter: 'blur(8px)',
+    border: '1px solid rgba(198, 169, 136, 0.6)', // капучино-бордер
   },
   title: {
     fontSize: '1.7rem',
     fontWeight: 700,
     margin: 0,
     marginBottom: '0.25rem',
-    letterSpacing: '0.03em',
-    color: '#262338',
+    letterSpacing: '0.04em',
+    color: '#3B2F2F', // горький шоколад
+    textTransform: 'uppercase',
   },
   subtitle: {
     margin: 0,
     marginBottom: '1.25rem',
     fontSize: '0.98rem',
-    color: '#6b647f',
+    color: '#6A5240', // мягкий кофе
   },
   sectionTitle: {
     fontSize: '1.25rem',
     fontWeight: 600,
     margin: 0,
     marginBottom: '0.5rem',
-    color: '#2b233f',
+    color: '#3B2F2F',
   },
   helperText: {
     margin: 0,
     marginBottom: '0.75rem',
     fontSize: '0.9rem',
-    color: '#7b7491',
+    color: '#7A5E47',
   },
   separator: {
     height: 1,
     background:
-      'linear-gradient(90deg, rgba(0,0,0,0) 0%, #e5daff 30%, #ffd4ea 70%, rgba(0,0,0,0) 100%)',
+      'linear-gradient(90deg, rgba(0,0,0,0) 0%, #D7C2AA 25%, #C6A988 75%, rgba(0,0,0,0) 100%)',
     margin: '1.25rem 0 1.5rem',
   },
   textarea: {
     width: '100%',
     padding: '0.9rem 1rem',
     borderRadius: 14,
-    border: '1px solid #d1c4f1',
+    border: '1px solid #C6A988',
     marginBottom: '0.9rem',
-    fontFamily: "inherit",
+    fontFamily: 'inherit',
     fontSize: '0.95rem',
     outline: 'none',
     resize: 'vertical',
-    backgroundColor: '#faf7ff',
+    backgroundColor: '#F3E6D6', // латте
+    color: '#3B2F2F',
   },
   button: {
     padding: '0.7rem 1.6rem',
@@ -262,39 +265,39 @@ const styles: { [key: string]: React.CSSProperties } = {
     fontWeight: 600,
     fontSize: '0.95rem',
     background:
-      'linear-gradient(135deg, #ff7ac0 0%, #ff9a9e 40%, #fbc2eb 100%)',
+      'linear-gradient(135deg, #4A2F24 0%, #6B4330 40%, #C6A988 100%)', // шоколад + капучино
     color: '#fff',
-    boxShadow: '0 10px 25px rgba(255, 122, 192, 0.35)',
+    boxShadow: '0 10px 25px rgba(59, 47, 47, 0.35)',
     transition: 'transform 0.08s ease, box-shadow 0.08s ease, opacity 0.1s',
   },
   buttonDisabled: {
     opacity: 0.7,
     cursor: 'default',
-    boxShadow: '0 6px 16px rgba(150, 150, 150, 0.2)',
+    boxShadow: '0 6px 16px rgba(59, 47, 47, 0.25)',
   },
   errorText: {
     marginTop: '0.75rem',
     fontSize: '0.98rem',
-    color: '#c0392b',
+    color: '#8B3A2A', // тёплый коричнево-красный
   },
   errorBox: {
     marginTop: '0.5rem',
     padding: '0.7rem 0.9rem',
     borderRadius: 12,
-    backgroundColor: '#ffecec',
-    border: '1px solid #ffb4b4',
-    color: '#b93b3b',
+    backgroundColor: '#FBE9E2',
+    border: '1px solid #E5B5A1',
+    color: '#8B3A2A',
     fontSize: '0.9rem',
   },
   answerBox: {
     marginTop: '1rem',
     padding: '1rem 1.1rem',
     borderRadius: 16,
-    border: '1px solid #e2d6ff',
+    border: '1px solid #C6A988',
     background:
-      'linear-gradient(135deg, #ffffff 0%, #fdf8ff 40%, #f7f9ff 100%)',
+      'linear-gradient(135deg, #FDF8F2 0%, #F3E4D4 45%, #F7EFE6 100%)',
     fontSize: '0.95rem',
-    color: '#332a4d',
+    color: '#3B2F2F',
     whiteSpace: 'pre-wrap',
   },
 };
