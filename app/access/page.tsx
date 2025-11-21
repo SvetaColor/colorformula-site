@@ -63,7 +63,7 @@ export default function AccessPage() {
     setAnswer(null);
 
     if (!message.trim()) {
-      setError('Сначала напишите запрос для ИИ-помощника.');
+      setError('Сначала напиши запрос для ИИ-помощника.');
       return;
     }
 
@@ -95,7 +95,6 @@ export default function AccessPage() {
 
   function handleFocusForFollowUp() {
     if (textareaRef.current) {
-      // ставим курсор в конец текста
       const el = textareaRef.current;
       el.focus();
       const len = el.value.length;
@@ -156,7 +155,9 @@ export default function AccessPage() {
 
         <h2 style={styles.sectionTitle}>ИИ-помощник колориста</h2>
         <p style={styles.helperText}>
-          Опишите исходные данные: цвет, фон осветления, желаемый результат, историю окрашивания и т.д.
+          Чтобы ответ был максимально точным, напиши, пожалуйста: натуральную базу (уровень/фон),
+          историю окрашиваний/смывок, % седины и где она расположена, состояние/пористость,
+          желаемый результат (УГТ/оттенок/температура), бренд/линейку (если важно).
         </p>
 
         <textarea
@@ -165,10 +166,17 @@ export default function AccessPage() {
           onChange={(e) => setMessage(e.target.value)}
           rows={6}
           style={styles.textarea}
-          placeholder="Например: клиентка с натуральной базой 6.0, ранее осветлялась до 9 уровня, есть тёплый фон..."
+          placeholder="Пример: натуральная база 6.0 (тёплый фон), ранее осветлялась до 9 уровня, есть жёлто-оранжевая теплота, волосы пористые, 30% седины по пробору, хотим холодный 9 ряд без затемнения, работаю Estel / Matrix..."
         />
 
-        <div style={{ marginBottom: '0.75rem', display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+        <div
+          style={{
+            marginBottom: '0.75rem',
+            display: 'flex',
+            gap: '0.75rem',
+            flexWrap: 'wrap',
+          }}
+        >
           <button
             onClick={handleAsk}
             disabled={loading}
@@ -180,7 +188,6 @@ export default function AccessPage() {
             {loading ? 'Запрашиваем ИИ-помощника…' : 'Отправить запрос'}
           </button>
 
-          {/* Кнопка для дописывания / уточнения вопроса */}
           <button
             type="button"
             onClick={handleFocusForFollowUp}
@@ -190,15 +197,13 @@ export default function AccessPage() {
           </button>
         </div>
 
-        {error && (
-          <div style={styles.errorBox}>
-            ⚠️ {error}
-          </div>
-        )}
+        {error && <div style={styles.errorBox}>⚠️ {error}</div>}
 
         {answer && (
           <div style={styles.answerBox}>
-            <b style={{ display: 'block', marginBottom: '0.5rem' }}>Ответ ИИ-помощника:</b>
+            <b style={{ display: 'block', marginBottom: '0.5rem' }}>
+              Ответ ИИ-помощника:
+            </b>
             <div>{answer}</div>
           </div>
         )}
