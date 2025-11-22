@@ -1,10 +1,15 @@
 import './globals.css';
-import React from 'react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Colorformula App',
-  description: 'Доступ для подписчиков ИИ-помощника',
+  description: 'Доступ к ИИ-помощнику ColorFormula',
+  openGraph: {
+    title: 'Colorformula App',
+    description: 'Доступ к ИИ-помощнику ColorFormula',
+    type: 'website',
+    url: 'https://colorformula-site.vercel.app',
+  }
 };
 
 export default function RootLayout({
@@ -18,4 +23,3 @@ export default function RootLayout({
     </html>
   );
 }
-
