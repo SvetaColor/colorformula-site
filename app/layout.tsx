@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Colorformula App',
-  description: 'Доступ для подписчиков GPT',
+  description: 'Доступ для подписчиков ИИ-помощника',
 };
 
 export default function RootLayout({
@@ -18,3 +18,4 @@ export default function RootLayout({
     </html>
   );
 }
+
