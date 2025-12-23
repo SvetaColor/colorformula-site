@@ -13,7 +13,6 @@ type Client = {
 // 💾 Таблица клиентов
 const clients: Client[] = [
   { id: 'Vasya123', name: 'Вася', active: true },
-  { id: 'sveta1', name: 'Света', active: false },
   { id: 'katya789', name: 'Катя', active: true },
   { id: 'anna', name: 'Анна', active: false }, // пример отключённой подписки
 ];
@@ -339,6 +338,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     whiteSpace: 'pre-wrap',
   },
 };
+
 
 
 
